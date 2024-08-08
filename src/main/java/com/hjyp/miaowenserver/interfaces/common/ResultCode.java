@@ -12,7 +12,7 @@ public enum ResultCode {
         this.code = code;
     }
 
-    public static enum ArticleResultCode {
+    public enum ArticleResultCode {
 
     }
 

@@ -39,9 +39,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
         // 查询文章作者ID
         List<Integer> authorIds = new ArrayList<>();
-        articleEntityList.forEach((articleEntity) -> {
-            authorIds.add(articleEntity.getId());
-        });
+        articleEntityList.forEach((articleEntity) -> authorIds.add(articleEntity.getId()));
 
         // 查询文章作者，并将其转变为Map<作者ID， 头像>
         List<AuthorEntity> authorAvatars = authorDao.selectAuthorByBatch(authorIds);
