@@ -1,13 +1,11 @@
-package com.hjyp.miaowenserver.infrastructure.po;
+package com.hjyp.miaowenserver.domain.statistic.model;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class BrowseRecordEntity {
-    // 浏览记录ID
-    private Integer id;
+public class DislikeArticleDO {
 
     // 用户ID
     private String userId;
@@ -15,10 +13,9 @@ public class BrowseRecordEntity {
     // 文章ID
     private String articleId;
 
-    // 是否删除
-    private Boolean deleted;
+    // 当前是否是点踩操作 true为是，false为取消点踩
+    private boolean dislike;
 
     // 操作时间
     private Date createTime;
-
 }

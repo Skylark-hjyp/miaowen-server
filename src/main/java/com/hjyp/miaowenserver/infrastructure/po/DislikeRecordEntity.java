@@ -5,8 +5,9 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class BrowseRecordEntity {
-    // 浏览记录ID
+public class DislikeRecordEntity {
+
+    // 点踩记录ID
     private Integer id;
 
     // 用户ID
@@ -20,5 +21,4 @@ public class BrowseRecordEntity {
 
     // 操作时间
     private Date createTime;
-
 }

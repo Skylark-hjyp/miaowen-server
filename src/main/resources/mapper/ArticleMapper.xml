@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.hjyp.miaowenserver.infrastructure.dao.ArticleDao">
+<mapper namespace="com.hjyp.miaowenserver.infrastructure.mapper.ArticleMapper">
     <select id="selectByPage" resultType="com.hjyp.miaowenserver.infrastructure.po.ArticleEntity">
         select * from article_table limit #{start}, #{limit}
     </select>
@@ -13,5 +13,22 @@
     <select id="select" resultType="com.hjyp.miaowenserver.infrastructure.po.ArticleEntity">
         select * from article_table where article_id = #{articleId}
     </select>
+
+    <select id="selectStatistic" resultType="com.hjyp.miaowenserver.infrastructure.po.ArticleEntity">
+        select article_id, article_browse_count, article_comment_count, article_like_count, article_dislike_count, article_mark_count, article_share_count
+        from article_table where article_id = #{articleId}
+    </select>
+
+    <select id="selectStatisticByBatch" resultType="com.hjyp.miaowenserver.infrastructure.po.ArticleEntity">
+        select article_id, article_browse_count, article_comment_count, article_like_count, article_dislike_count, article_mark_count, article_share_count
+        from article_table where article_id IN
+        <foreach collection="list" open="(" close=")" item="articleId" separator="," >
+            #{articleId}
+        </foreach>
+    </select>
+
+    <update id="updateStatistic" >
+        UPDATE `article_table` SET ${column} = ${column} ${valueExpress} WHERE `article_id` = #{articleId}
+    </update>
 
 </mapper>

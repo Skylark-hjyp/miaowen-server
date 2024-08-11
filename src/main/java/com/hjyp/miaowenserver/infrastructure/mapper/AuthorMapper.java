@@ -1,4 +1,4 @@
-package com.hjyp.miaowenserver.infrastructure.dao;
+package com.hjyp.miaowenserver.infrastructure.mapper;
 
 import com.hjyp.miaowenserver.infrastructure.po.AuthorEntity;
 import org.apache.ibatis.annotations.Mapper;
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface AuthorDao {
+public interface AuthorMapper {
     Integer insert(AuthorEntity author);
     Integer update(AuthorEntity author);
     Integer delete(Integer id);

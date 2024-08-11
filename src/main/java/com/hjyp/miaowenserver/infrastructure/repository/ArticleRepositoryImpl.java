@@ -1,8 +1,10 @@
 package com.hjyp.miaowenserver.infrastructure.repository;
 
+import com.hjyp.miaowenserver.domain.article.model.ArticleBaseInfo;
+import com.hjyp.miaowenserver.domain.article.model.ArticlePageInfo;
 import com.hjyp.miaowenserver.domain.article.repository.ArticleRepository;
-import com.hjyp.miaowenserver.infrastructure.dao.ArticleDao;
-import com.hjyp.miaowenserver.infrastructure.dao.AuthorDao;
+import com.hjyp.miaowenserver.infrastructure.mapper.ArticleMapper;
+import com.hjyp.miaowenserver.infrastructure.mapper.AuthorMapper;
 import com.hjyp.miaowenserver.infrastructure.po.ArticleEntity;
 import com.hjyp.miaowenserver.infrastructure.po.AuthorEntity;
 import com.hjyp.miaowenserver.interfaces.vo.ArticleEntityPageVo;
@@ -20,67 +22,63 @@ import java.util.Map;
 public class ArticleRepositoryImpl implements ArticleRepository {
 
     @Autowired
-    private ArticleDao articleDao;
+    private ArticleMapper articleMapper;
 
     @Autowired
-    private AuthorDao authorDao;
+    private AuthorMapper authorMapper;
 
     @Override
-    public ArticlePageVo selectArticleByPage(int page, int pageSize) {
+    public ArticlePageInfo selectArticleByPage(int page, int pageSize) {
         // 查询文章总数
-        Integer count = articleDao.selectCount();
+        Integer count = articleMapper.selectCount();
 
         if (count == null || count == 0) {
-            return new ArticlePageVo(0, null);
+            return new ArticlePageInfo(0, null);
         }
 
         // 分页查询文章
-        List<ArticleEntity> articleEntityList = articleDao.selectByPage((page - 1) * pageSize, pageSize);
+        List<ArticleEntity> articleEntityList = articleMapper.selectByPage((page - 1) * pageSize, pageSize);
 
         // 查询文章作者ID
         List<Integer> authorIds = new ArrayList<>();
         articleEntityList.forEach((articleEntity) -> authorIds.add(articleEntity.getId()));
 
         // 查询文章作者，并将其转变为Map<作者ID， 头像>
-        List<AuthorEntity> authorAvatars = authorDao.selectAuthorByBatch(authorIds);
-        if (authorAvatars.isEmpty()) {
-            return new ArticlePageVo(0, null);
-        }
-
+        List<AuthorEntity> authorAvatars = authorMapper.selectAuthorByBatch(authorIds);
         Map<Integer, String> authorAvatarMap = new HashMap<>();
         authorAvatars.forEach((authorEntity) -> authorAvatarMap.put(authorEntity.getId(), authorEntity.getAuthorAvatar()));
 
         // 组合VO对象
-        List<ArticleEntityPageVo> articleEntityPageVoList = new ArrayList<>();
+        List<ArticleBaseInfo> articleBaseInfoList = new ArrayList<>();
         try {
             for (ArticleEntity articleEntity : articleEntityList ) {
-                ArticleEntityPageVo articleEntityPageVo = new ArticleEntityPageVo();
-                BeanUtils.copyProperties(articleEntityPageVo, articleEntity);
-                articleEntityPageVo.setAuthorAvatar(authorAvatarMap.get(articleEntityPageVo.getArticleAuthorId()));
-                articleEntityPageVoList.add(articleEntityPageVo);
+                ArticleBaseInfo articleBaseInfo = new ArticleBaseInfo();
+                BeanUtils.copyProperties(articleBaseInfo, articleEntity);
+                articleBaseInfo.setAuthorAvatar(authorAvatarMap.get(articleBaseInfo.getArticleAuthorId()));
+                articleBaseInfoList.add(articleBaseInfo);
             }
         } catch (Exception e) {
             throw new RuntimeException("分页查询文章对象列表赋值失败");
         }
 
-        return new ArticlePageVo(count, articleEntityPageVoList);
+        return new ArticlePageInfo(count, articleBaseInfoList);
     }
 
     @Override
-    public ArticleEntityPageVo selectArticleById(String articleId) {
-        ArticleEntity article = articleDao.select(articleId);
+    public ArticleBaseInfo selectArticleById(String articleId) {
+        ArticleEntity article = articleMapper.select(articleId);
 
-        AuthorEntity author = authorDao.selectById(article.getArticleAuthorId());
+        AuthorEntity author = authorMapper.selectById(article.getArticleAuthorId());
 
-        ArticleEntityPageVo articleEntityPageVo = new ArticleEntityPageVo();
+        ArticleBaseInfo articleBaseInfo = new ArticleBaseInfo();
         try {
-            BeanUtils.copyProperties(articleEntityPageVo, article);
+            BeanUtils.copyProperties(articleBaseInfo, article);
         } catch (Exception e) {
             throw new RuntimeException("查询文章对象赋值失败");
         }
 
-        articleEntityPageVo.setAuthorAvatar(author.getAuthorAvatar());
+        articleBaseInfo.setAuthorAvatar(author.getAuthorAvatar());
 
-        return articleEntityPageVo;
+        return articleBaseInfo;
     }
 }

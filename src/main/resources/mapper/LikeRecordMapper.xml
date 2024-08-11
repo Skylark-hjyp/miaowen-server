@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.hjyp.miaowenserver.infrastructure.mapper.LikeRecordMapper">
+
+    <insert id="insertLikeRecord" parameterType="com.hjyp.miaowenserver.infrastructure.po.LikeRecordEntity">
+        INSERT INTO like_record_table(`user_id`, `article_id`, `is_deleted`, create_time) VALUES
+            (#{userId}, #{articleId}, #{deleted}, #{createTime})
+    </insert>
+
+    <update id="deleteLikeRecord" parameterType="com.hjyp.miaowenserver.infrastructure.po.LikeRecordEntity">
+        UPDATE `like_record_table` SET `is_deleted` = TRUE WHERE `user_id` = #{userId} AND `article_id` = #{articleId}
+    </update>
+
+</mapper>

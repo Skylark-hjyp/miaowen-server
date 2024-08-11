@@ -1,5 +1,7 @@
 package com.hjyp.miaowenserver.domain.article.repository;
 
+import com.hjyp.miaowenserver.domain.article.model.ArticleBaseInfo;
+import com.hjyp.miaowenserver.domain.article.model.ArticlePageInfo;
 import com.hjyp.miaowenserver.interfaces.vo.ArticleEntityPageVo;
 import com.hjyp.miaowenserver.interfaces.vo.ArticlePageVo;
 
@@ -10,12 +12,12 @@ public interface ArticleRepository {
      * @param pageSize 每页数量
      * @return 分页查询VO对象
      */
-    ArticlePageVo selectArticleByPage(int page, int pageSize);
+    ArticlePageInfo selectArticleByPage(int page, int pageSize);
 
     /**
      * 查询文章详细信息
      * @param articleId 文章ID
      * @return 文章详细信息
      */
-    ArticleEntityPageVo selectArticleById(String articleId);
+    ArticleBaseInfo selectArticleById(String articleId);
 }

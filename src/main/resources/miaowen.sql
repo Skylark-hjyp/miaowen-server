@@ -71,3 +71,66 @@ INSERT INTO `article_table`(article_id, article_title, article_author_id, articl
 
 -- 创建索引，优化文章标签搜索
 -- CREATE INDEX idx_article_tag ON `article` (`articleTag`);
+
+-- 创建browse_record表
+DROP TABLE IF EXISTS `browse_record_table`;
+CREATE TABLE `browse_record_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(255) NOT NULL COMMENT '用户ID',
+    `article_id` VARCHAR(255) NOT NULL COMMENT '文章ID',
+    `is_deleted` TINYINT(1) DEFAULT TRUE COMMENT '是否删除，默认不删除',
+    `create_time` DATETIME DEFAULT NOW() COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 创建评论表
+DROP TABLE IF EXISTS `comment_table`;
+CREATE TABLE `comment_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(255) NOT NULL COMMENT '用户ID',
+    `article_id` VARCHAR(255) NOT NULL COMMENT '文章ID',
+    `parent_comment_id` INT DEFAULT NULL COMMENT '父评论ID',
+    `comment_content` VARCHAR(255) DEFAULT NULL COMMENT '评论内容',
+    `reply_user_id` VARCHAR(255) DEFAULT NULL COMMENT '子评论分为两种，一种是回复父评论，此时回复用户为null；一种是回复其他子评论，此时回复用户ID不为空.',
+    `is_deleted` TINYINT(1) DEFAULT TRUE COMMENT '是否删除，默认不删除',
+    `create_time` DATETIME DEFAULT NOW() COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 创建dislike_record表
+DROP TABLE IF EXISTS `dislike_record_table`;
+CREATE TABLE `dislike_record_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(255) NOT NULL COMMENT '用户ID',
+    `article_id` VARCHAR(255) NOT NULL COMMENT '文章ID',
+    `is_deleted` TINYINT(1) DEFAULT TRUE COMMENT '是否删除，默认不删除',
+    `create_time` DATETIME DEFAULT NOW() COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 创建like_record表
+DROP TABLE IF EXISTS `like_record_table`;
+CREATE TABLE `like_record_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(255) NOT NULL COMMENT '用户ID',
+    `article_id` VARCHAR(255) NOT NULL COMMENT '文章ID',
+    `is_deleted` TINYINT(1) DEFAULT TRUE COMMENT '是否删除，默认不删除',
+    `create_time` DATETIME DEFAULT NOW() COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 创建mark_record表
+DROP TABLE IF EXISTS `mark_record_table`;
+CREATE TABLE `mark_record_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(255) NOT NULL COMMENT '用户ID',
+    `article_id` VARCHAR(255) NOT NULL COMMENT '文章ID',
+    `is_deleted` TINYINT(1) DEFAULT TRUE COMMENT '是否删除，默认不删除',
+    `create_time` DATETIME DEFAULT NOW() COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 创建share_record表
+DROP TABLE IF EXISTS `share_record_table`;
+CREATE TABLE `share_record_table` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `user_id` VARCHAR(255) NOT NULL COMMENT '用户ID',
+    `article_id` VARCHAR(255) NOT NULL COMMENT '文章ID',
+    `is_deleted` TINYINT(1) DEFAULT TRUE COMMENT '是否删除，默认不删除',
+    `create_time` DATETIME DEFAULT NOW() COMMENT '操作时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

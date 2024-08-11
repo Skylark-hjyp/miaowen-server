@@ -1,12 +1,13 @@
-package com.hjyp.miaowenserver.infrastructure.po;
+package com.hjyp.miaowenserver.domain.statistic.model;
 
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class CommentEntity {
-    // 评论id
+public class CommentArticleDO {
+
+    // 评论ID
     private Integer id;
 
     // 用户ID
@@ -23,9 +24,6 @@ public class CommentEntity {
 
     // 子评论分为两种，一种是回复父评论，此时回复用户为null；一种是回复其他子评论，此时回复用户ID不为空.
     private String replyUserId;
-
-    // 是否被删除
-    private Boolean deleted;
 
     // 操作时间
     private Date createTime;
