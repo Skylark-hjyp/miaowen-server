@@ -107,6 +107,11 @@ public class StatisticRepositoryImpl implements StatisticRepository {
         if (result != 1) {
             return false;
         }
+
+        // 如果用户未登录，前端传过来的用户ID为null，此时只需要更新文章浏览量即可
+        if (browseArticleDO.getUserId() == null) {
+            return true;
+        }
         
         // 写入浏览记录
         BrowseRecordEntity browseRecordEntity = new BrowseRecordEntity();

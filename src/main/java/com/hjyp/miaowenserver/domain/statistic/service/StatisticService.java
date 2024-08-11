@@ -3,7 +3,6 @@ package com.hjyp.miaowenserver.domain.statistic.service;
 import com.hjyp.miaowenserver.domain.statistic.model.*;
 import com.hjyp.miaowenserver.domain.statistic.repository.StatisticRepository;
 import jakarta.annotation.Resource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -74,9 +73,6 @@ public class StatisticService {
         }
         if (browseArticleDO.getArticleId() == null || browseArticleDO.getArticleId().trim().isEmpty()) {
             throw new IllegalArgumentException("browseArticleDO.getArticleId is null or empty");
-        }
-        if (browseArticleDO.getUserId() == null || browseArticleDO.getUserId().trim().isEmpty()) {
-            throw new IllegalArgumentException("browseArticleDO.getUserId is null or empty");
         }
 
         boolean result = statisticRepository.browseArticle(browseArticleDO);

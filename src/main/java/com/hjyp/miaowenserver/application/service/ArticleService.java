@@ -70,7 +70,9 @@ public class ArticleService {
      */
     public Result<ArticleEntityPageVo> selectArticleById(ActionBaseDto actionBaseDto) {
         // 校验参数
-        checkAction(actionBaseDto);
+        if (actionBaseDto.getArticleId() == null || actionBaseDto.getArticleId().isEmpty()) {
+            throw new IllegalArgumentException("article id is empty");
+        }
 
         // TODO：获取评论
 
